@@ -99,7 +99,13 @@ def parse_attachment(message_part):
                 attachment['filename'] = filename
 
             for param in dispositions[1:]:
-                name, value = decode_param(param)
+                if not param:
+                    continue
+                try:
+                    name, value = decode_param(param)
+                except ValueError:
+                    logger.error('Could not decode Content-Disposition %s', param)
+                    name, value = None, None
 
                 if 'file' in name:
                     attachment['filename'] = value

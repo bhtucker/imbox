@@ -5,9 +5,9 @@ from imbox.parser import *
 
 import sys
 if sys.version_info.major < 3 or sys.version_info.minor < 3:
-    SMTP = False
+    DEFAULT_POLICY = False
 else:
-    from email.policy import SMTP
+    from email.policy import default as DEFAULT_POLICY
 
 
 raw_email = """Delivered-To: johndoe@gmail.com
@@ -120,12 +120,12 @@ class TestParser(unittest.TestCase):
         self.assertEqual([{'email': 'johnsmith@gmail.com', 'name': 'John Smith'}], get_mail_addresses(from_message_object, 'from'))
 
     def test_parse_email_with_policy(self):
-        if not SMTP:
+        if not DEFAULT_POLICY:
             return
 
         message_object = email.message_from_bytes(
             raw_email_encoded_needs_refolding,
-            policy=SMTP.clone(refold_source='all')
+            policy=DEFAULT_POLICY.clone(refold_source='all')
         )
 
         self.assertEqual([
