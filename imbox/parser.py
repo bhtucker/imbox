@@ -125,6 +125,8 @@ def decode_content(message):
         return content.decode(charset)
     except AttributeError:
         return content
+    except UnicodeDecodeError:
+        return content.decode('iso-8859-1')
 
 
 def parse_email(raw_email, policy=None):
