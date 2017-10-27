@@ -1,7 +1,7 @@
 from setuptools import setup
 import os
 
-version = '0.8.5'
+version = '0.8.5b'
 
 
 def read(filename):
